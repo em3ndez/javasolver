@@ -9,7 +9,7 @@ rem ====== LINEAR SOLVERS ======
 rem set SOLVER=Scip
 set SOLVER=GLPK
 rem set SOLVER=Coin
-rem set SOLVER=CLP
+set SOLVER=CLP
 
 cd %~dp0
 call .\run

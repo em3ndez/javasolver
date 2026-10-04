@@ -1,6 +1,6 @@
-set CLASS_NAME=com.javasolver.samples.InsideOutsideProductionInteger
+set CLASS_NAME=com.javasolver.samples.InsideOutsideProductionVar
 rem set SOLVER=Scip
-set SOLVER=CLP
+set SOLVER=Scip
 rem set SOLVER=GLPK
 rem set SOLVER=Coin
 rem set SOLVER=Constrainer

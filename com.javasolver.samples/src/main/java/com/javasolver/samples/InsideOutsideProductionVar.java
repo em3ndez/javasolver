@@ -55,11 +55,11 @@ import javax.constraints.Problem;
 import javax.constraints.ProblemFactory;
 import javax.constraints.Solution;
 import javax.constraints.Solver;
-import javax.constraints.VarReal;
+import javax.constraints.Var;
 
 import com.javasolver.JavaSolver;
 
-public class InsideOutsideProductionInteger extends JavaSolver {
+public class InsideOutsideProductionVar extends JavaSolver {
 	
 	public void define() {
 
@@ -70,65 +70,64 @@ public class InsideOutsideProductionInteger extends JavaSolver {
 //			int KLUSKI=0, CAPPELINI = 1, FETTUCINI = 2;
 //			int FLOUR = 0, EGGS = 1;
 			//consumption matrix: consumption[i][j] is a consumption of resources[i] for products[j]
-			double[][] consumption = {
+			int[][] consumption = {
 					{5, 4, 3},
 			        {2, 4, 6}
 			};
 			// insideCost[i] is a production cost of product[i]
-			double[] insideCosts = {6, 8, 3};
+			int[] insideCosts = {6, 8, 3};
 			// outsideCost[i] is a cost of unit of product[i] being produced outside the company
-			double[] outsideCosts = {8, 9, 4};
+			int[] outsideCosts = {8, 9, 4};
 			// customers demands for product[i]
-			double[] demand = {100, 200, 300};
+			int[] demand = {100, 200, 300};
 
 			//amount of resources available
 			int[] capacity = {200, 400};
 			
-			VarReal[] insideVars = new VarReal[] {
-					csp.variableReal(products[0] + "Inside", 0, demand[0]),
-					csp.variableReal(products[1] + "Inside", 0, demand[1]),
-					csp.variableReal(products[2] + "Inside", 0, demand[2])
+			Var[] insideVars = new Var[] {
+					csp.variable(products[0] + "Inside", 0, demand[0]),
+					csp.variable(products[1] + "Inside", 0, demand[1]),
+					csp.variable(products[2] + "Inside", 0, demand[2])
 			};
 
-			VarReal[] outsideVars = new VarReal[] {
-					csp.variableReal(products[0] + "Outside", 0, demand[0]),
-					csp.variableReal(products[1] + "Outside", 0, demand[1]),
-					csp.variableReal(products[2] + "Outside", 0, demand[2])
+			Var[] outsideVars = new Var[] {
+					csp.variable(products[0] + "Outside", 0, demand[0]),
+					csp.variable(products[1] + "Outside", 0, demand[1]),
+					csp.variable(products[2] + "Outside", 0, demand[2])
 			};
 
 			//an objective function - the total cost of production
-			VarReal insideCost = csp.scalProd(insideCosts, insideVars); 
+			Var insideCost = csp.scalProd(insideCosts, insideVars); 
 			insideCost.setName("inCost");
 		    csp.add(insideCost);
-		    VarReal outsideCost = csp.scalProd(outsideCosts, outsideVars);
+		    Var outsideCost = csp.scalProd(outsideCosts, outsideVars);
 			outsideCost.setName("outCost");
 		    csp.add(outsideCost);
-		    VarReal totalCost = insideCost.plus(outsideCost); 
-		    //VarReal totalCost = csp.sum(insideCost,outsideCost);
+		    Var totalCost = csp.sum(insideCost,outsideCost);
 		    totalCost.setName("TotalCost");
 		    csp.add(totalCost); 
 
 		    //capacity constraints
 			for (int r=0; r < resources.length; r++){
-				//VarReal resourceConsumption = csp.scalProd(consumption[r], insideVars);
+				//Var resourceConsumption = csp.scalProd(consumption[r], insideVars);
 				//csp.post(resourceConsumption,"<=",capacity[r]);
 			    csp.post(consumption[r],insideVars,"<=",capacity[r]);
 			}
 
 			//meeting customers demand constraints
 			for (int d = 0; d < products.length; d++){
-				VarReal sum = csp.sum(insideVars[d],outsideVars[d]);
+				Var sum = csp.sum(insideVars[d],outsideVars[d]);
 				sum.setName("demand"+(d+1));
 				csp.add(sum);
 			    csp.post(sum,">=",demand[d]); 
 			}
 			
-			setObjectiveReal(totalCost);
+			setObjective(totalCost);
 
 	}
 
 	public static void main(String[] args) {
-		InsideOutsideProductionInteger problem = new InsideOutsideProductionInteger();
+		InsideOutsideProductionVar problem = new InsideOutsideProductionVar();
 		problem.define();
 		problem.minimize();
 	}

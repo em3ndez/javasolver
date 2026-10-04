@@ -1,5 +1,6 @@
 set CLASS_NAME=com.javasolver.samples.InsideOutsideProduction
-set SOLVER=Scip
+rem set SOLVER=Scip
+set SOLVER=CLP
 rem set SOLVER=GLPK
 rem set SOLVER=Coin
 @echo off

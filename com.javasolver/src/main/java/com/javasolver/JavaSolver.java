@@ -13,7 +13,7 @@ import javax.constraints.VarReal;
 
 public class JavaSolver {
 	
-	static final String RELEASE = "Java Solver Release 2.3.3 (build of Sep 4, 2026)";
+	static final String RELEASE = "Java Solver Release 2.4.0 (build of Sep 21, 2026)";
 
 	protected Problem csp; // used by all subclasses
 	protected Var objectiveVar;
@@ -133,12 +133,10 @@ public class JavaSolver {
 	 * Solves the optimization problem using Objective.MINIMIZE
 	 */
 	public Solution minimize() { 
-		log("Minimize: "+getObjective());
 		return optimize(Objective.MINIMIZE);
 	}
 	
 	public Solution maximize() { 
-		log("Maximize: "+getObjective());
 		return optimize(Objective.MAXIMIZE);
 	}
 	
@@ -155,12 +153,13 @@ public class JavaSolver {
 		Var objective = getObjective();
 		Solution solution = null;
 		if (objective != null) {
+			log(objectiveType.name() + ": "+objective);
 			solution = solver.findOptimalSolution(objectiveType,objective);
 		}
 		else { // try VarReal
 			VarReal objectiveReal = getObjectiveReal();
 			if (objectiveReal != null) {
-				log("Use objective: " + objectiveReal);
+				log(objectiveType.name() + ": " + objectiveReal);
 				solution = solver.findOptimalSolution(objectiveType,objectiveReal);
 			}
 			else {

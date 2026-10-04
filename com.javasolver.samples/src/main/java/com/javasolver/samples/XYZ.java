@@ -29,8 +29,8 @@ public class XYZ extends JavaSolver {
 //		problem.setValueSelector(ValueSelectorType.MAX);
 //		problem.setMaxNumberOfSolutions(10);
 		problem.minimize();
-		problem.maximize();
-		problem.solveAll();
+//		problem.maximize();
+//		problem.solveAll();
 	}
 
 }

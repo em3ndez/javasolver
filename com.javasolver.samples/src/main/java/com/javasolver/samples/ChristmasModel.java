@@ -58,7 +58,7 @@ public class ChristmasModel extends JavaSolver {
 			Var totalHappiness = csp.sum("Total Happiness",happiness);
 			setObjective(totalHappiness);
 		} catch (Exception e) {
-			throw new RuntimeException("Problem is overconstrained");
+			throw new RuntimeException("Non Linear constraints or Problem is overconstrained");
 		}
 	}
 
